@@ -1,0 +1,25 @@
+{
+	"info": {
+		"_postman_id": "2e13eb69-2de3-4896-bbb4-1059db7778e5",
+		"name": "Springboot Kafka",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "String Publish",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
