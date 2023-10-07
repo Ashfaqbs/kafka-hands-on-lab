@@ -1,0 +1,86 @@
+STEP 1: DOWNLOAD AND INSTALL KAFKA
+https://dlcdn.apache.org/kafka/3.2.0/...
+
+STEP 2: START THE KAFKA ENVIRONMENT extract open the main kafka folder and run the below commands
+# Start the ZooKeeper service
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+# Start the Kafka broker service
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
+.\bin\windows\kafka-topics.bat --create --topic my_topic_demo --bootstrap-server localhost:9092 
+if u have already created my_topic_demo this topic or already created a topic u cannot create a another topic new topic with its name as it will be saved in kafka, and we can use that already created topics inorder to use them just use step 1 , 2 , 4, 5 , no need of creating a new topic to use old ones 
+
+STEP 4: WRITE SOME EVENTS INTO THE TOPIC
+.\bin\windows\kafka-console-producer.bat --topic my_topic_demo --bootstrap-server localhost:9092
+
+STEP 5:  READ THE EVENTS
+.\bin\windows\kafka-console-consumer.bat --topic my_topic_demo  --from-beginning --bootstrap-server localhost:9092
+hello world
+topic demo
+
+
+extra 
+
+Change the Kafka and Zookeeper data and log directories: By default, Kafka and ZooKeeper store their data and logs in temporary directories. If the paths to these directories are too long, you can change them to directories with shorter paths. This can be done by editing the config/server.properties and config/zookeeper.properties files [11][12][14].
+
+
+
+# Change Kafka log dirs in server.properties
+log.dirs=D:/kafka/data/kafka-logs
+
+# Change Zookeeper data dir in zookeeper.properties
+dataDir=D:/kafka/data/zookeeper
+
+
+//in springboot  i create a topic myCustomTopic1 and proiducer and sent a message to the topic myCustomTopic1 let us  verify by running step 5 in terminal
+
+.\bin\windows\kafka-console-consumer.bat --topic myCustomTopic1 --from-beginning --bootstrap-server localhost:9092
+
+
+
+.\bin\windows\kafka-console-consumer.bat --topic myCustomTopic1JSON --from-beginning --bootstrap-server localhost:9092
+
+
+
+
+
+rough 
+
+.\bin\windows\kafka-console-consumer.bat --topic myFirstTopic --from-beginning --bootstrap-server localhost:9092
+
+.\bin\windows\kafka-console-producer.bat --topic myFirstTopic --bootstrap-server localhost:9092
+
+
+
+.\bin\windows\kafka-topics.bat --create --topic tutorial_topic1 --bootstrap-server localhost:9092 
+
+.\bin\windows\kafka-console-producer.bat --topic tutorial_topic1 --bootstrap-server localhost:9092
+
+
+"C:\Users\Ashfaq PC\Desktop\Apache-Kafka\kafka\bin\windows\zookeeper-server-start.bat"
+
+
+1 zookeper command 
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+2 kafka server command 
+
+
+.\bin\windows\kafka-server-start.bat  .\config\server.properties
+"E:\kafka\bin\windows\kafka-server-start.bat" "E:\kafka\config\server.properties"
+
+
+3 creating a kafka topi 
+
+.\bin\windows\kafka-topics.bat --create --topic myFirstTopic --bootstrap-server localhost:9092
+
+$ bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+
+
+
+
+bin\windows\zookeeper-server-start.bat  config\zookeeper.properties
+
+"C:\Users\Ashfaq PC\Desktop\Apache-Kafka\kafka\bin\windows\kafka-server-start.bat"   "C:\Users\Ashfaq PC\Desktop\Apache-Kafka\kafka\config\zookeeper.properties"
