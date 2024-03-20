@@ -1,0 +1,46 @@
+spring.kafka.bootstrap-servers=<bootstrap-servers-url>
+spring.kafka.properties.sasl.mechanism=PLAIN
+spring.kafka.properties.sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username='<api-key>' password='<api-secret>';
+spring.kafka.properties.security.protocol=SASL_SSL
+
+
+@Configuration
+@EnableKafka
+public class KafkaConfig {
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "<bootstrap-servers-url>");
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
+
+@Service
+public class EventPublisher {
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    public EventPublisher(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void publishEvent(String topic, String message) {
+        kafkaTemplate.send(topic, message);
+    }
+}
+
+
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+
+
