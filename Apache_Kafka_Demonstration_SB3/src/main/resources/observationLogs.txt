@@ -1,0 +1,246 @@
+once started app logs :
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+[32m :: Spring Boot :: [39m              [2m (v3.2.5)[0;39m
+
+[2m2024-04-26T11:59:20.251+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36md.ApacheKafkaDemonstrationSb3Application[0;39m [2m:[0;39m Starting ApacheKafkaDemonstrationSb3Application using Java 21.0.2 with PID 25560 (C:\Users\ashfa\OneDrive\Desktop\My-Learning\Java\Springboot\Apache-Kafka-Springboot\Springboot-Kafka-Integration\Apache_Kafka_Demonstration_SB3\target\classes started by ashfa in C:\Users\ashfa\OneDrive\Desktop\My-Learning\Java\Springboot\Apache-Kafka-Springboot\Springboot-Kafka-Integration\Apache_Kafka_Demonstration_SB3)
+[2m2024-04-26T11:59:20.253+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36md.ApacheKafkaDemonstrationSb3Application[0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2024-04-26T11:59:20.333+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2m2024-04-26T11:59:20.334+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2m2024-04-26T11:59:21.400+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8080 (http)
+[2m2024-04-26T11:59:21.414+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2024-04-26T11:59:21.414+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.20]
+[2m2024-04-26T11:59:21.465+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2024-04-26T11:59:21.465+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1131 ms
+[2m2024-04-26T11:59:21.898+05:30[0;39m [33m WARN[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mion$DefaultTemplateResolverConfiguration[0;39m [2m:[0;39m Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+[2m2024-04-26T11:59:22.000+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
+[2m2024-04-26T11:59:22.083+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8080 (http) with context path ''
+[2m2024-04-26T11:59:22.135+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.a.k.clients.consumer.ConsumerConfig   [0;39m [2m:[0;39m ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-group_id-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = group_id
+	group.instance.id = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+[2m2024-04-26T11:59:22.264+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka version: 3.6.2
+[2m2024-04-26T11:59:22.266+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka commitId: c4deed513057c94e
+[2m2024-04-26T11:59:22.266+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka startTimeMs: 1714112962263
+[2m2024-04-26T11:59:22.270+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36mfkaConsumerFactory$ExtendedKafkaConsumer[0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Subscribed to topic(s): my_topic_demo
+[2m2024-04-26T11:59:22.294+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [2m[0;39m[36md.ApacheKafkaDemonstrationSb3Application[0;39m [2m:[0;39m Started ApacheKafkaDemonstrationSb3Application in 2.463 seconds (process running for 3.162)
+[2m2024-04-26T11:59:22.748+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Cluster ID: F3CtEcr8QDWVOTr6D14tkg
+[2m2024-04-26T11:59:22.749+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Discovered group coordinator Ashu:9092 (id: 2147483647 rack: null)
+[2m2024-04-26T11:59:22.751+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] (Re-)joining group
+[2m2024-04-26T11:59:22.787+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Request joining group due to: need to re-join with the given member-id: consumer-group_id-1-6605b987-4742-4f8b-8f5a-a9f2f2d22b79
+[2m2024-04-26T11:59:22.788+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Request joining group due to: rebalance failed due to 'The group member needs to have a valid member id before actually entering a consumer group.' (MemberIdRequiredException)
+[2m2024-04-26T11:59:22.788+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] (Re-)joining group
+[2m2024-04-26T11:59:22.799+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Successfully joined group with generation Generation{generationId=17, memberId='consumer-group_id-1-6605b987-4742-4f8b-8f5a-a9f2f2d22b79', protocol='range'}
+[2m2024-04-26T11:59:22.815+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Finished assignment for group at generation 17: {consumer-group_id-1-6605b987-4742-4f8b-8f5a-a9f2f2d22b79=Assignment(partitions=[my_topic_demo-0])}
+[2m2024-04-26T11:59:22.836+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Successfully synced group in generation Generation{generationId=17, memberId='consumer-group_id-1-6605b987-4742-4f8b-8f5a-a9f2f2d22b79', protocol='range'}
+[2m2024-04-26T11:59:22.837+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Notifying assignor about the new Assignment(partitions=[my_topic_demo-0])
+[2m2024-04-26T11:59:22.841+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Adding newly assigned partitions: my_topic_demo-0
+[2m2024-04-26T11:59:22.862+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.a.k.c.c.internals.ConsumerCoordinator [0;39m [2m:[0;39m [Consumer clientId=consumer-group_id-1, groupId=group_id] Setting offset for partition my_topic_demo-0 to the committed offset FetchPosition{offset=15, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[Ashu:9092 (id: 0 rack: null)], epoch=0}}
+[2m2024-04-26T11:59:22.863+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [2m[0;39m[36mo.s.k.l.KafkaMessageListenerContainer   [0;39m [2m:[0;39m group_id: partitions assigned: [my_topic_demo-0]
+
+
+
+
+Calling api post logs 
+
+
+2024-04-26T12:00:58.808+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-3][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2024-04-26T12:00:58.808+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-3][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2024-04-26T12:00:58.809+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-3][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 1 ms
+[2m2024-04-26T12:01:17.300+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-4][0;39m [2m[0;39m[36mo.a.k.clients.producer.ProducerConfig   [0;39m [2m:[0;39m ProducerConfig values: 
+	acks = -1
+	auto.include.jmx.reporter = true
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = producer-1
+	compression.type = none
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 0
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+[2m2024-04-26T12:01:17.308+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-4][0;39m [2m[0;39m[36mo.a.k.clients.producer.KafkaProducer    [0;39m [2m:[0;39m [Producer clientId=producer-1] Instantiated an idempotent producer.
+[2m2024-04-26T12:01:17.322+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-4][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka version: 3.6.2
+[2m2024-04-26T12:01:17.322+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-4][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka commitId: c4deed513057c94e
+[2m2024-04-26T12:01:17.322+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[nio-8080-exec-4][0;39m [2m[0;39m[36mo.a.kafka.common.utils.AppInfoParser    [0;39m [2m:[0;39m Kafka startTimeMs: 1714113077322
+[2m2024-04-26T12:01:17.333+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [2m[0;39m[36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Producer clientId=producer-1] Cluster ID: F3CtEcr8QDWVOTr6D14tkg
+[2m2024-04-26T12:01:17.453+05:30[0;39m [32m INFO[0;39m [35m25560[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [2m[0;39m[36mo.a.k.c.p.internals.TransactionManager  [0;39m [2m:[0;39m [Producer clientId=producer-1] ProducerId set to 1000 with epoch 0
+Received Message: Sending Data : [1, 2, 3, 4, 5, 6]
+
+
+
+
