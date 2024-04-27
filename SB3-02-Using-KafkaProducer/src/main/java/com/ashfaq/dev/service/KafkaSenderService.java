@@ -1,10 +1,7 @@
 package com.ashfaq.dev.service;
 
-import java.util.concurrent.Future;
-
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +25,15 @@ public class KafkaSenderService {
 		});
 		kafkaProducer.flush();
 	}
+	
+	
+	public void sendMessage(String topic, int partition, String key, String value) {
+	    ProducerRecord<String, String> record = new ProducerRecord<>(topic, partition, key, value);
+	    kafkaProducer.send(record);
+	    kafkaProducer.flush();
+	}
+
+	
+	
+	
 }

@@ -10,8 +10,9 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-      
+#      session-timeout-ms: 30000    
+#      max-poll-interval-ms: 60000
+#      max-poll-records: 50
 
 #this topic name can be anything but important for consumer side and not created by config or from CLI
 springcustom:

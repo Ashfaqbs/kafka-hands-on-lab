@@ -45,6 +45,10 @@ public class KafkaConsumerConfig {
 		configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, keySerializer);
 		configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueSerializer);
 
+//	    configProps.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 30000);
+//	    configProps.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 60000);
+//	    configProps.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50);
+		
 //      configProps.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "kafka.security.protocol=SASL_SSL");
 //      configProps.put(SaslConfigs.SASL_MECHANISM, "kafka.sasl.mechanism=PLAIN");
 //      configProps.put(SaslConfigs.SASL_JAAS_CONFIG, "kafka.sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username='your_username' password='your_password';
