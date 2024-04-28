@@ -1,0 +1,37 @@
+spring:
+ kafka:
+    producer:
+      bootstrap-servers: localhost:9092,localhost:9093
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: localhost:9092,localhost:9093
+      group-id: my_group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      session-timeout-ms: 30000    
+      max-poll-interval-ms: 60000
+      max-poll-records: 50
+
+#this topic name can be anything but important for consumer side and not created by config or from CLI
+#PS C:\kafka> .\bin\windows\kafka-topics.bat  --create --bootstrap-server localhost:9092,localhost:9092,localhost:9093  --replication-factor 1 --partitions 9
+# --topic myCommontopic
+#Created topic myCommontopic.
+springcustom:
+ topic:
+    name: myCommontopic 
+    
+#   PS C:\kafka> .\bin\windows\kafka-console-consumer.bat --topic my_topic_demo  --from-beginning --bootstrap-server localhost:9092
+
+#   application.yml   
+#kafka:
+# security.protocol: SASL_SSL
+# sasl.mechanism: PLAIN
+# sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="your_username" password="your_password";
+
+#application.properties
+
+#kafka.security.protocol=SASL_SSL
+#kafka.sasl.mechanism=PLAIN
+#kafka.sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="your_username" password="your_password";

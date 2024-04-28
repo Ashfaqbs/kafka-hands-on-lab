@@ -5,8 +5,20 @@ STEP 2: START THE KAFKA ENVIRONMENT extract open the main kafka folder and run t
 # Start the ZooKeeper service
 .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 
-# Start the Kafka broker service
+# 2 (a) Start the Kafka broker service
 .\bin\windows\kafka-server-start.bat .\config\server.properties
+
+
+2 (b)
+Multiple Broker : 
+
+.\bin\windows\kafka-console-producer.bat --topic myCommontopic --bootstrap-server localhost:9092,localhost:9093 
+
+.\bin\windows\kafka-console-consumer.bat --topic myCommontopic  --from-beginning --bootstrap-server localhost:9092,localhost:9093
+
+
+.\bin\windows\kafka-topics.bat  --create --bootstrap-server localhost:9092,localhost:9092,localhost:9093  --replication-factor 1 --partitions 9 --topic myCommontopic
+
 
 STEP 3: CREATE A TOPIC TO STORE YOUR EVENTS
 .\bin\windows\kafka-topics.bat --create --topic my_topic_demo --bootstrap-server localhost:9092 
@@ -52,7 +64,9 @@ mytutTopic
 
 
 
-extra 
+
+
+Extra 
 
 Change the Kafka and Zookeeper data and log directories: By default, Kafka and ZooKeeper store their data and logs in temporary directories. If the paths to these directories are too long, you can change them to directories with shorter paths. This can be done by editing the config/server.properties and config/zookeeper.properties files [11][12][14].
 
@@ -111,11 +125,41 @@ rough
 1 zookeper command 
 .\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
 
-2 kafka server command 
+2 kafka start server command 
 
 
 .\bin\windows\kafka-server-start.bat  .\config\server.properties
 "E:\kafka\bin\windows\kafka-server-start.bat" "E:\kafka\config\server.properties"
+
+
+
+
+
+
+PS C:\kafka> .\bin\windows\kafka-topics.bat --create --topic my_topic_demo --bootstrap-server localhost:9092,localhost:9093
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Error while executing topic command : Topic 'my_topic_demo' already exists.
+[2024-04-28 08:27:46,167] ERROR org.apache.kafka.common.errors.TopicExistsException: Topic 'my_topic_demo' already exists.
+ (org.apache.kafka.tools.TopicCommand)
+PS C:\kafka> .\bin\windows\kafka-topics.bat --create --topic my_Common_topic --bootstrap-server localhost:9092,localhost:9093
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Created topic my_Common_topic.
+
+
+
+PS C:\kafka> .\bin\windows\kafka-topics.bat --delete --topic my_Common_topic --bootstrap-server localhost:9092,localhost:9093
+PS C:\kafka> .\bin\windows\kafka-topics.bat  --create --bootstrap-server localhost:9092,localhost:9092,localhost:9093  --replication-factor 1 --partitions 9
+ --topic my_Common_topic
+WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+Error while executing topic command : Topic 'my_Common_topic' is marked for deletion.
+[2024-04-28 08:44:37,909] ERROR org.apache.kafka.common.errors.TopicExistsException: Topic 'my_Common_topic' is marked for deletion.
+ (org.apache.kafka.tools.TopicCommand)
+
+PS C:\kafka> .\bin\windows\kafka-topics.bat  --create --bootstrap-server localhost:9092,localhost:9092,localhost:9093  --replication-factor 1 --partitions 9
+ --topic myCommontopic
+Created topic myCommontopic.
+
+
 
 
 3 creating a kafka topi 
