@@ -1,0 +1,46 @@
+To check if the Kafka broker is up before sending data from a producer in a Spring Boot Java application, you can use Apache Kafka's AdminClient. Here's how you can implement it:
+
+Create a KafkaAdminClient class that wraps an instance of the AdminClient class:
+
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.admin.DescribeClusterResult;
+import java.util.Collection;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+
+public class KafkaAdminClient {
+    private final AdminClient client;
+
+    public KafkaAdminClient(String bootstrap) {
+        Properties props = new Properties();
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrap);
+        props.put(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
+        props.put(AdminClientConfig.CONNECTIONS_MAX_IDLE_MS_CONFIG, 5000);
+
+        this.client = AdminClient.create(props);
+    }
+
+    public boolean verifyConnection() throws ExecutionException, InterruptedException {
+        DescribeClusterResult describeClusterResult = client.describeCluster();
+        Collection<Node> nodes = describeClusterResult.nodes().get();
+        return nodes != null && !nodes.isEmpty();
+    }
+}
+
+
+public static void main(String[] args) {
+    KafkaAdminClient kafkaAdminClient = new KafkaAdminClient("localhost:9092");
+    try {
+        boolean isKafkaUp = kafkaAdminClient.verifyConnection();
+        System.out.println("Kafka is up: " + isKafkaUp);
+    } catch (ExecutionException | InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+
+
+This code snippet initializes an AdminClient with your Kafka broker's address and uses it to check if the broker is up by verifying if there are any nodes available in the cluster. 
+If the broker is up, verifyConnection will return true; otherwise, it will return false 3.
+
+
