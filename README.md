@@ -54,7 +54,15 @@ By combining Kafka with Spring Boot, you can create powerful, real-time, and sca
 
 
 
+- **Leader**: The broker responsible for all reads and writes of a partition. It handles requests from producers (writing messages) and consumers (reading messages).
+- **Followers**: Replicate the data from the leader to ensure redundancy and fault tolerance. If the leader fails, one of the followers can be promoted to become the new leader.
 
+![image](https://github.com/Ashfaqbs/Springboot-Kafka-Integration/assets/105435085/fd2a146a-9739-44c1-adfb-6b08e8636fec)
+
+
+0: No acknowledgment.
+1 (default): Wait for acknowledgment from the leader.
+all or -1: Wait for acknowledgments from the leader and all followers.
 
 
 
@@ -126,10 +134,23 @@ spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.Str
 spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
 spring.kafka.consumer.properties.spring.json.trusted.packages=*
 
+
+
+
 # Producer Configuration
 spring.kafka.producer.bootstrap-servers=localhost:9092
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
 spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
+Spring.kafka.producer.acks=all 
+Default value is one 
+Spring.kafka.producer.acks=1
+
+0: No acknowledgment.
+1 (default): Wait for acknowledgment from the leader.
+all or -1: Wait for acknowledgments from the leader and all followers.
+![image](https://github.com/Ashfaqbs/Springboot-Kafka-Integration/assets/105435085/2588eea6-4807-4a84-950a-1b04b0cda775)
+
 
 ```
 
