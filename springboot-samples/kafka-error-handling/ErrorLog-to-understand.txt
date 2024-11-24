@@ -1,0 +1,71 @@
+
+
+
+First Sending
+
+2024-07-19T23:09:58.626+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [36mc.ashfaq.consumer.KafkaMessageConsumer  [0;39m [2m:[0;39m Received: {"id":16,"firstName":"Parnell","lastName":"Schimmang","email":"pschimmangf@istockphoto.com","gender":"Male","ipAddress":"126.130.43.183"} from my-sample-topic offset 15
+[2m2024-07-19T23:09:59.134+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Producer clientId=producer-1] Resetting the last seen epoch of partition my-sample-topic-retry-0-0 to 0 since the associated topicId changed from null to HzGY9bvpTQ6QlApRnsuk9A
+[2m2024-07-19T23:09:59.134+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ntainer#0-0-C-1][0;39m [36mo.a.k.clients.consumer.KafkaConsumer    [0;39m [2m:[0;39m [Consumer clientId=consumer-my-group-5, groupId=my-group] Seeking to offset 16 for partition my-sample-topic-0
+[2m2024-07-19T23:09:59.134+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-0-0-C-1][0;39m [36mo.a.k.clients.consumer.KafkaConsumer    [0;39m [2m:[0;39m [Consumer clientId=consumer-my-group-retry-0-4, groupId=my-group-retry-0] Seeking to offset 4 for partition my-sample-topic-retry-0-0
+
+Then failure 
+
+then retry 3 times :
+
+2024-07-19T23:09:59.652+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-0-0-C-1][0;39m [36mc.ashfaq.consumer.KafkaMessageConsumer  [0;39m [2m:[0;39m Received: {"id":16,"firstName":"Parnell","lastName":"Schimmang","email":"pschimmangf@istockphoto.com","gender":"Male","ipAddress":"126.130.43.183"} from my-sample-topic-retry-0 offset 4
+[2m2024-07-19T23:10:00.156+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Producer clientId=producer-1] Resetting the last seen epoch of partition my-sample-topic-retry-1-0 to 0 since the associated topicId changed from null to 8amvwkIrQoCr69flrC1n5Q
+[2m2024-07-19T23:10:00.156+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-1-0-C-1][0;39m [36mo.a.k.clients.consumer.KafkaConsumer    [0;39m [2m:[0;39m [Consumer clientId=consumer-my-group-retry-1-3, groupId=my-group-retry-1] Seeking to offset 4 for partition my-sample-topic-retry-1-0
+
+[2m2024-07-19T23:10:00.676+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-1-0-C-1][0;39m [36mc.ashfaq.consumer.KafkaMessageConsumer  [0;39m [2m:[0;39m Received: {"id":16,"firstName":"Parnell","lastName":"Schimmang","email":"pschimmangf@istockphoto.com","gender":"Male","ipAddress":"126.130.43.183"} from my-sample-topic-retry-1 offset 4
+[2m2024-07-19T23:10:01.181+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Producer clientId=producer-1] Resetting the last seen epoch of partition my-sample-topic-retry-2-0 to 0 since the associated topicId changed from null to 5_rEBXToT22vqy2kj79Gmg
+[2m2024-07-19T23:10:01.185+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-2-0-C-1][0;39m [36mo.a.k.clients.consumer.KafkaConsumer    [0;39m [2m:[0;39m [Consumer clientId=consumer-my-group-retry-2-2, groupId=my-group-retry-2] Seeking to offset 4 for partition my-sample-topic-retry-2-0
+
+[2m2024-07-19T23:10:01.692+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-2-0-C-1][0;39m [36mc.ashfaq.consumer.KafkaMessageConsumer  [0;39m [2m:[0;39m Received: {"id":16,"firstName":"Parnell","lastName":"Schimmang","email":"pschimmangf@istockphoto.com","gender":"Male","ipAddress":"126.130.43.183"} from my-sample-topic-retry-2 offset 4
+[2m2024-07-19T23:10:01.692+05:30[0;39m [31mERROR[0;39m [35m86900[0;39m [2m---[0;39m [2m[0-retry-2-0-C-1][0;39m [36mk.r.DeadLetterPublishingRecovererFactory[0;39m [2m:[0;39m Record: topic = my-sample-topic-retry-2, partition = 0, offset = 4, main topic = my-sample-topic threw an error at topic my-sample-topic-retry-2 and won't be retried. 
+
+sendig data to DLT
+
+Sending to DLT with name my-sample-topic-dlt.
+
+org.springframework.kafka.listener.ListenerExecutionFailedException: Listener failed
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.decorateException(KafkaMessageListenerContainer.java:2996) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2937) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2904) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.lambda$doInvokeRecordListener$58(KafkaMessageListenerContainer.java:2822) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at io.micrometer.observation.Observation.lambda$observe$4(Observation.java:544) ~[micrometer-observation-1.11.2.jar:1.11.2]
+	at io.micrometer.observation.Observation.observeWithContext(Observation.java:603) ~[micrometer-observation-1.11.2.jar:1.11.2]
+	at io.micrometer.observation.Observation.observe(Observation.java:544) ~[micrometer-observation-1.11.2.jar:1.11.2]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2820) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2672) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2558) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2200) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1555) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1519) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1394) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: org.springframework.kafka.listener.TimestampedException: Exception thrown at 2024-07-19T17:40:01.692220100Z
+	at org.springframework.kafka.listener.adapter.KafkaBackoffAwareMessageListenerAdapter.onMessage(KafkaBackoffAwareMessageListenerAdapter.java:100) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.KafkaBackoffAwareMessageListenerAdapter.onMessage(KafkaBackoffAwareMessageListenerAdapter.java:49) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2923) ~[spring-kafka-3.0.9.jar:3.0.9]
+	... 14 common frames omitted
+Caused by: org.springframework.kafka.listener.ListenerExecutionFailedException: Listener method 'public void com.ashfaq.consumer.KafkaMessageConsumer.consumeEvents(com.ashfaq.dto.User,java.lang.String,long)' threw exception
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:391) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:53) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.KafkaBackoffAwareMessageListenerAdapter.invokeDelegateOnMessage(KafkaBackoffAwareMessageListenerAdapter.java:106) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.KafkaBackoffAwareMessageListenerAdapter.onMessage(KafkaBackoffAwareMessageListenerAdapter.java:97) ~[spring-kafka-3.0.9.jar:3.0.9]
+	... 16 common frames omitted
+Caused by: java.lang.RuntimeException: Invalid IP Address received !
+	at com.ashfaq.consumer.KafkaMessageConsumer.consumeEvents(KafkaMessageConsumer.java:36) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:169) ~[spring-messaging-6.0.11.jar:6.0.11]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-6.0.11.jar:6.0.11]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:56) ~[spring-kafka-3.0.9.jar:3.0.9]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:375) ~[spring-kafka-3.0.9.jar:3.0.9]
+	... 20 common frames omitted
+
+[2m2024-07-19T23:10:02.195+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ad | producer-1][0;39m [36morg.apache.kafka.clients.Metadata       [0;39m [2m:[0;39m [Producer clientId=producer-1] Resetting the last seen epoch of partition my-sample-topic-dlt-0 to 0 since the associated topicId changed from null to XNdoGW_1Rbict83HyapLbg
+[2m2024-07-19T23:10:02.195+05:30[0;39m [32m INFO[0;39m [35m86900[0;39m [2m---[0;39m [2m[ner#0-dlt-0-C-1][0;39m [36mc.ashfaq.consumer.KafkaMessageConsumer  [0;39m [2m:[0;39m DLT recieved : my-sample-topic-dlt , from 4 , offset {}  User(id=16, firstName=Parnell, lastName=Schimmang, email=pschimmangf@istockphoto.com, gender=Male, ipAddress=126.130.43.183)
+
