@@ -1,0 +1,18 @@
+spring:
+   kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+         group-id: main-service
+         auto-offset-reset: earliest
+      producer:
+         key-serializer: org.apache.kafka.common.serialization.StringSerializer
+         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      listener:
+         missing-topics-fatal: false
+   datasource:
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password: 
+      initialization-mode: always
+      schema: classpath:db/schema.sql
