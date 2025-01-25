@@ -1,0 +1,331 @@
+Microsoft Windows [Version 10.0.26100.2894]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\tmp\Kafka> cmd /C ""C:\Program Files\Java\jdk-21\bin\java.exe" @C:\Users\ashfa\AppData\Local\Temp\cp_94x20v7aheyyel43xr7wfoiv8.argfile com.example.sb_kafka_docker_demo.SbKafkaDockerDemoApplication "
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.4.2)
+
+2025-01-25T08:50:18.068+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] c.e.s.SbKafkaDockerDemoApplication       : Starting SbKafkaDockerDemoApplication using Java 21.0.2 with PID 16556 (C:\tmp\Kafka\apache-kafka\sb-kafka-docker-demo\sb-kafka-docker-demo\target\classes started by ashfa in C:\tmp\Kafka)
+2025-01-25T08:50:18.070+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] c.e.s.SbKafkaDockerDemoApplication       : No active profile set, falling back to 1 default profile: "default"       
+2025-01-25T08:50:19.071+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-01-25T08:50:19.087+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-01-25T08:50:19.088+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-01-25T08:50:19.148+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-01-25T08:50:19.149+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1035 ms
+2025-01-25T08:50:19.996+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.k.clients.admin.AdminClientConfig    : AdminClientConfig values:
+        auto.include.jmx.reporter = true
+        bootstrap.controllers = []
+        bootstrap.servers = [localhost:9092]
+        client.dns.lookup = use_all_dns_ips
+        client.id = sb-kafka-docker-demo-admin-0
+        connections.max.idle.ms = 300000
+        default.api.timeout.ms = 60000
+        enable.metrics.push = true
+        metadata.max.age.ms = 300000
+        metadata.recovery.strategy = none
+        metric.reporters = []
+        metrics.num.samples = 2
+        metrics.recording.level = INFO
+        metrics.sample.window.ms = 30000
+        receive.buffer.bytes = 65536
+        reconnect.backoff.max.ms = 1000
+        reconnect.backoff.ms = 50
+        request.timeout.ms = 30000
+        retries = 2147483647
+        retry.backoff.max.ms = 1000
+        retry.backoff.ms = 100
+        sasl.client.callback.handler.class = null
+        sasl.jaas.config = null
+        sasl.kerberos.kinit.cmd = /usr/bin/kinit
+        sasl.kerberos.min.time.before.relogin = 60000
+        sasl.kerberos.service.name = null
+        sasl.kerberos.ticket.renew.jitter = 0.05
+        sasl.kerberos.ticket.renew.window.factor = 0.8
+        sasl.login.callback.handler.class = null
+        sasl.login.class = null
+        sasl.login.connect.timeout.ms = null
+        sasl.login.read.timeout.ms = null
+        sasl.login.refresh.buffer.seconds = 300
+        sasl.login.refresh.min.period.seconds = 60
+        sasl.login.refresh.window.factor = 0.8
+        sasl.login.refresh.window.jitter = 0.05
+        sasl.login.retry.backoff.max.ms = 10000
+        sasl.login.retry.backoff.ms = 100
+        sasl.mechanism = GSSAPI
+        sasl.oauthbearer.clock.skew.seconds = 30
+        sasl.oauthbearer.expected.audience = null
+        sasl.oauthbearer.expected.issuer = null
+        sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+        sasl.oauthbearer.jwks.endpoint.url = null
+        sasl.oauthbearer.scope.claim.name = scope
+        sasl.oauthbearer.sub.claim.name = sub
+        sasl.oauthbearer.token.endpoint.url = null
+        security.protocol = PLAINTEXT
+        security.providers = null
+        send.buffer.bytes = 131072
+        socket.connection.setup.timeout.max.ms = 30000
+        socket.connection.setup.timeout.ms = 10000
+        ssl.cipher.suites = null
+        ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+        ssl.endpoint.identification.algorithm = https
+        ssl.engine.factory.class = null
+        ssl.key.password = null
+        ssl.keymanager.algorithm = SunX509
+        ssl.keystore.certificate.chain = null
+        ssl.keystore.key = null
+        ssl.keystore.location = null
+        ssl.keystore.password = null
+        ssl.keystore.type = JKS
+        ssl.protocol = TLSv1.3
+        ssl.provider = null
+        ssl.secure.random.implementation = null
+        ssl.trustmanager.algorithm = PKIX
+        ssl.truststore.certificates = null
+        ssl.truststore.location = null
+        ssl.truststore.password = null
+        ssl.truststore.type = JKS
+
+2025-01-25T08:50:20.158+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.8.1
+2025-01-25T08:50:20.159+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 70d6ff42debf7e17
+2025-01-25T08:50:20.159+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1737775220157
+2025-01-25T08:50:20.466+05:30  WARN 16556 --- [sb-kafka-docker-demo] [er-demo-admin-0] o.a.k.clients.admin.KafkaAdminClient     : [AdminClient clientId=sb-kafka-docker-demo-admin-0] The DescribeTopicPartitions API is not supported, using Metadata API to describe topics.
+2025-01-25T08:50:20.475+05:30  INFO 16556 --- [sb-kafka-docker-demo] [er-demo-admin-0] o.a.kafka.common.utils.AppInfoParser     : App info kafka.admin.client for sb-kafka-docker-demo-admin-0 unregistered 
+2025-01-25T08:50:20.479+05:30  INFO 16556 --- [sb-kafka-docker-demo] [er-demo-admin-0] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2025-01-25T08:50:20.479+05:30  INFO 16556 --- [sb-kafka-docker-demo] [er-demo-admin-0] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-01-25T08:50:20.479+05:30  INFO 16556 --- [sb-kafka-docker-demo] [er-demo-admin-0] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2025-01-25T08:50:20.491+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-01-25T08:50:20.511+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values:
+        allow.auto.create.topics = true
+        auto.commit.interval.ms = 5000
+        auto.include.jmx.reporter = true
+        auto.offset.reset = earliest
+        bootstrap.servers = [localhost:9092]
+        check.crcs = true
+        client.dns.lookup = use_all_dns_ips
+        client.id = consumer-my-group-1
+        client.rack =
+        connections.max.idle.ms = 540000
+        default.api.timeout.ms = 60000
+        enable.auto.commit = false
+        enable.metrics.push = true
+        exclude.internal.topics = true
+        fetch.max.bytes = 52428800
+        fetch.max.wait.ms = 500
+        fetch.min.bytes = 1
+        group.id = my-group
+        group.instance.id = null
+        group.protocol = classic
+        group.remote.assignor = null
+        heartbeat.interval.ms = 3000
+        interceptor.classes = []
+        internal.leave.group.on.close = true
+        internal.throw.on.fetch.stable.offset.unsupported = false
+        isolation.level = read_uncommitted
+        key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+        max.partition.fetch.bytes = 1048576
+        max.poll.interval.ms = 300000
+        max.poll.records = 500
+        metadata.max.age.ms = 300000
+        metadata.recovery.strategy = none
+        metric.reporters = []
+        metrics.num.samples = 2
+        metrics.recording.level = INFO
+        metrics.sample.window.ms = 30000
+        partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+        receive.buffer.bytes = 65536
+        reconnect.backoff.max.ms = 1000
+        reconnect.backoff.ms = 50
+        request.timeout.ms = 30000
+        retry.backoff.max.ms = 1000
+        retry.backoff.ms = 100
+        sasl.client.callback.handler.class = null
+        sasl.jaas.config = null
+        sasl.kerberos.kinit.cmd = /usr/bin/kinit
+        sasl.kerberos.min.time.before.relogin = 60000
+        sasl.kerberos.service.name = null
+        sasl.kerberos.ticket.renew.jitter = 0.05
+        sasl.kerberos.ticket.renew.window.factor = 0.8
+        sasl.login.callback.handler.class = null
+        sasl.login.class = null
+        sasl.login.connect.timeout.ms = null
+        sasl.login.read.timeout.ms = null
+        sasl.login.refresh.buffer.seconds = 300
+        sasl.login.refresh.min.period.seconds = 60
+        sasl.login.refresh.window.factor = 0.8
+        sasl.login.refresh.window.jitter = 0.05
+        sasl.login.retry.backoff.max.ms = 10000
+        sasl.login.retry.backoff.ms = 100
+        sasl.mechanism = GSSAPI
+        sasl.oauthbearer.clock.skew.seconds = 30
+        sasl.oauthbearer.expected.audience = null
+        sasl.oauthbearer.expected.issuer = null
+        sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+        sasl.oauthbearer.jwks.endpoint.url = null
+        sasl.oauthbearer.scope.claim.name = scope
+        sasl.oauthbearer.sub.claim.name = sub
+        sasl.oauthbearer.token.endpoint.url = null
+        security.protocol = PLAINTEXT
+        security.providers = null
+        send.buffer.bytes = 131072
+        session.timeout.ms = 45000
+        socket.connection.setup.timeout.max.ms = 30000
+        socket.connection.setup.timeout.ms = 10000
+        ssl.cipher.suites = null
+        ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+        ssl.endpoint.identification.algorithm = https
+        ssl.engine.factory.class = null
+        ssl.key.password = null
+        ssl.keymanager.algorithm = SunX509
+        ssl.keystore.certificate.chain = null
+        ssl.keystore.key = null
+        ssl.keystore.location = null
+        ssl.keystore.password = null
+        ssl.keystore.type = JKS
+        ssl.protocol = TLSv1.3
+        ssl.provider = null
+        ssl.secure.random.implementation = null
+        ssl.trustmanager.algorithm = PKIX
+        ssl.truststore.certificates = null
+        ssl.truststore.location = null
+        ssl.truststore.password = null
+        ssl.truststore.type = JKS
+        value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2025-01-25T08:50:20.549+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-01-25T08:50:20.592+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.8.1
+2025-01-25T08:50:20.592+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 70d6ff42debf7e17
+2025-01-25T08:50:20.592+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1737775220592
+2025-01-25T08:50:20.595+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Subscribed to topic(s): my-topic
+2025-01-25T08:50:20.607+05:30  INFO 16556 --- [sb-kafka-docker-demo] [           main] c.e.s.SbKafkaDockerDemoApplication       : Started SbKafkaDockerDemoApplication in 2.931 seconds (process running for 3.203)
+2025-01-25T08:50:20.620+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-my-group-1, groupId=my-group] Cluster ID: UBn7CYJHSKKuIcO-of_Mvw
+2025-01-25T08:50:21.420+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Discovered group coordinator localhost:9092 (id: 2147482646 rack: null)
+2025-01-25T08:50:21.422+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] (Re-)joining group
+2025-01-25T08:50:21.445+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Request joining group due to: need to re-join with the given member-id: consumer-my-group-1-70c35e19-9ad1-4c79-bf0f-920ec8e79085
+2025-01-25T08:50:21.446+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] (Re-)joining group
+2025-01-25T08:50:21.464+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Successfully joined group with generation Generation{generationId=1, memberId='consumer-my-group-1-70c35e19-9ad1-4c79-bf0f-920ec8e79085', protocol='range'}
+2025-01-25T08:50:21.470+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Finished assignment for group at generation 1: {consumer-my-group-1-70c35e19-9ad1-4c79-bf0f-920ec8e79085=Assignment(partitions=[my-topic-0])}
+2025-01-25T08:50:21.517+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Successfully synced group in generation Generation{generationId=1, memberId='consumer-my-group-1-70c35e19-9ad1-4c79-bf0f-920ec8e79085', protocol='range'}
+2025-01-25T08:50:21.518+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Notifying assignor about the new Assignment(partitions=[my-topic-0])
+2025-01-25T08:50:21.521+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] k.c.c.i.Co2025-01-25T08:50:21.521+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-my-group-1, groupId=my-group] Add2025-01-25T08:50:21.521+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#roup] Adding newly assigned partitions: my-topic-0
+2025-01-25T08:50:21.539+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-my-group-1, groupId=my-group] Found no committed offset for partition my-topic-0      
+2025-01-25T08:50:21.553+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-my-group-1, groupId=my-group] Resetting offset for partition my-topic-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1001 rack: null)], epoch=0}}.
+2025-01-25T08:50:21.554+05:30  INFO 16556 --- [sb-kafka-docker-demo] [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : my-group: partitions assigned: [my-topic-0]
+2025-01-25T08:51:14.464+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-25T08:51:14.464+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-01-25T08:51:14.465+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-01-25T08:51:14.509+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.k.clients.producer.ProducerConfig    : ProducerConfig values:
+        acks = -1
+        auto.include.jmx.reporter = true
+        batch.size = 16384
+        bootstrap.servers = [localhost:9092]
+        buffer.memory = 33554432
+        client.dns.lookup = use_all_dns_ips
+        client.id = sb-kafka-docker-demo-producer-1
+        compression.gzip.level = -1
+        compression.lz4.level = 9
+        compression.type = none
+        compression.zstd.level = 3
+        connections.max.idle.ms = 540000
+        delivery.timeout.ms = 120000
+        enable.idempotence = true
+        enable.metrics.push = true
+        interceptor.classes = []
+        key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+        linger.ms = 0
+        max.block.ms = 60000
+        max.in.flight.requests.per.connection = 5
+        max.request.size = 1048576
+        metadata.max.age.ms = 300000
+        metadata.max.idle.ms = 300000
+        metadata.recovery.strategy = none
+        metric.reporters = []
+        metrics.num.samples = 2
+        metrics.recording.level = INFO
+        metrics.sample.window.ms = 30000
+        partitioner.adaptive.partitioning.enable = true
+        partitioner.availability.timeout.ms = 0
+        partitioner.class = null
+        partitioner.ignore.keys = false
+        receive.buffer.bytes = 32768
+        reconnect.backoff.max.ms = 1000
+        reconnect.backoff.ms = 50
+        request.timeout.ms = 30000
+        retries = 2147483647
+        retry.backoff.max.ms = 1000
+        retry.backoff.ms = 100
+        sasl.client.callback.handler.class = null
+        sasl.jaas.config = null
+        sasl.kerberos.kinit.cmd = /usr/bin/kinit
+        sasl.kerberos.min.time.before.relogin = 60000
+        sasl.kerberos.service.name = null
+        sasl.kerberos.ticket.renew.jitter = 0.05
+        sasl.kerberos.ticket.renew.window.factor = 0.8
+        sasl.login.callback.handler.class = null
+        sasl.login.class = null
+        sasl.login.connect.timeout.ms = null
+        sasl.login.read.timeout.ms = null
+        sasl.login.refresh.buffer.seconds = 300
+        sasl.login.refresh.min.period.seconds = 60
+        sasl.login.refresh.window.factor = 0.8
+        sasl.login.refresh.window.jitter = 0.05
+        sasl.login.retry.backoff.max.ms = 10000
+        sasl.login.retry.backoff.ms = 100
+        sasl.mechanism = GSSAPI
+        sasl.oauthbearer.clock.skew.seconds = 30
+        sasl.oauthbearer.expected.audience = null
+        sasl.oauthbearer.expected.issuer = null
+        sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+        sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+        sasl.oauthbearer.jwks.endpoint.url = null
+        sasl.oauthbearer.scope.claim.name = scope
+        sasl.oauthbearer.sub.claim.name = sub
+        sasl.oauthbearer.token.endpoint.url = null
+        security.protocol = PLAINTEXT
+        security.providers = null
+        send.buffer.bytes = 131072
+        socket.connection.setup.timeout.max.ms = 30000
+        socket.connection.setup.timeout.ms = 10000
+        ssl.cipher.suites = null
+        ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+        ssl.endpoint.identification.algorithm = https
+        ssl.engine.factory.class = null
+        ssl.key.password = null
+        ssl.keymanager.algorithm = SunX509
+        ssl.keystore.certificate.chain = null
+        ssl.keystore.key = null
+        ssl.keystore.location = null
+        ssl.keystore.password = null
+        ssl.keystore.type = JKS
+        ssl.protocol = TLSv1.3
+        ssl.provider = null
+        ssl.secure.random.implementation = null
+        ssl.trustmanager.algorithm = PKIX
+        ssl.truststore.certificates = null
+        ssl.truststore.location = null
+        ssl.truststore.password = null
+        ssl.truststore.type = JKS
+        transaction.timeout.ms = 60000
+        transactional.id = null
+        value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2025-01-25T08:51:14.510+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-01-25T08:51:14.518+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=sb-kafka-docker-demo-producer-1] Instantiated an idempotent producer.
+2025-01-25T08:51:14.532+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.8.1
+2025-01-25T08:51:14.533+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: 70d6ff42debf7e17
+2025-01-25T08:51:14.533+05:30  INFO 16556 --- [sb-kafka-docker-demo] [nio-8080-exec-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1737775274532
+2025-01-25T08:51:14.541+05:30  INFO 16556 --- [sb-kafka-docker-demo] [demo-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=sb-kafka-docker-demo-producer-1] Cluster ID: UBn7CYJHSKKuIcO-of_Mvw
+2025-01-25T08:51:14.543+05:30  INFO 16556 --- [sb-kafka-docker-demo] [demo-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=sb-kafka-docker-demo-producer-1] ProducerId set to 0 with epoch 0
+Message sent: Hello Kafka
+Message received: Hello Kafka
