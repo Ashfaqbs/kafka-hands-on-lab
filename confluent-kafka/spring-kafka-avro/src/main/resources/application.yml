@@ -1,0 +1,29 @@
+topic:
+  name: javatechie-avro
+
+server:
+  port: 8182
+
+
+spring:
+  kafka:
+    bootstrap-servers: "127.0.0.1:9092" # Kafka Broker URL but global level so it would imply for producer and consumers.
+    producer:
+      keySerializer: "org.apache.kafka.common.serialization.StringSerializer"
+      valueSerializer: "io.confluent.kafka.serializers.KafkaAvroSerializer" # Kafka Avro Serializer
+      properties:
+        schema:
+          registry:
+            url: "http://127.0.0.1:8081" # Schema Registry URL
+    consumer:
+      group-id: "javatechie-new"
+      keyDeserializer: "org.apache.kafka.common.serialization.StringDeserializer"
+      valueDeserializer: "io.confluent.kafka.serializers.KafkaAvroDeserializer" # Kafka Avro Deserializer
+      autoOffsetReset: "earliest"
+      properties:
+        schema:
+          registry:
+            url: "http://127.0.0.1:8081" # Schema Registry URL
+        specific:
+          avro:
+            reader: "true" # telling consumer to read the avro messages.
