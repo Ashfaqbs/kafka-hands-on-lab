@@ -1,0 +1,11 @@
+package com.example.kafka_producer_sb3.dto;
+
+import lombok.Data;
+
+@Data
+public class EmployeeDTO {
+    private String name;
+    private DepartmentDTO department;
+    // Getters and Setters
+}
+
