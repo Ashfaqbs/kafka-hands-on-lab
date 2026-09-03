@@ -1,0 +1,21 @@
+# Build/run artifacts
+*.log
+*.logs
+*.bak
+target/
+node_modules/
+build/
+dist/
+
+# Kafka Streams local state stores (RocksDB) — runtime data, never source
+**/kafka-streams-process-metadata
+**/rocksdb/
+*.sst
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
