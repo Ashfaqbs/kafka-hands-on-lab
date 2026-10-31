@@ -1,0 +1,216 @@
+services:
+
+  # ── SASL_PLAINTEXT vs SASL_SSL — read this ──────────────────────────────────
+  #
+  # This compose uses SASL_PLAINTEXT:
+  #   - SCRAM-SHA-512 authentication is production-grade (passwords never cross the wire)
+  #   - PLAINTEXT means the data itself is NOT encrypted in transit
+  #   - Fine for: local dev, internal VPCs, private subnets where network is trusted
+  #
+  # For true production (public internet, cross-datacenter):
+  #   - Change SASL_PLAINTEXT → SASL_SSL on every listener
+  #   - Generate a CA + per-broker TLS keystore + client truststore
+  #   - Mount keystores into brokers; point clients at the truststore
+  #   - Spring Boot: add ssl.truststore.location + ssl.keystore.location to properties
+  #
+  # Everything else here (SCRAM auth, 3-broker cluster, manual ACK, retries, DLT,
+  # idempotency) is identical to production regardless of TLS.
+  #
+  # ── 3-Broker KRaft cluster ───────────────────────────────────────────────────
+  #
+  # 3 brokers simulate a real production cluster:
+  #   - Replication factor 3 → each topic partition has 3 copies
+  #   - Broker loss tolerance: 1 broker can die, cluster stays up
+  #   - Spring Boot lists all 3 as bootstrap-servers — if one is down on connect,
+  #     the client falls over to the next
+  #
+  # Listener layout per broker:
+  #   SASL_PLAINTEXT  :9092 / :9192 / :9292  — external clients (host machine)
+  #   CONTROLLER      :9093 / :9193 / :9293  — KRaft Raft consensus (internal only)
+  #   INTERNAL        :9094 / :9194 / :9294  — health check + setup (PLAINTEXT, no auth)
+  #
+  # All 3 brokers share the same CLUSTER_ID. Fixed value so metadata survives restarts.
+
+  kafka1:
+    image: apache/kafka:3.7.0
+    hostname: kafka1
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+    expose:
+      - "9094"
+    environment:
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qg"
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: "1"
+      # All 3 brokers participate in KRaft controller quorum (Raft consensus)
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9093,2@kafka2:9193,3@kafka3:9293"
+      KAFKA_LISTENERS: "SASL_PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,INTERNAL://0.0.0.0:9094"
+      # SASL_PLAINTEXT advertised as localhost — for host-machine clients (Spring Boot, Python)
+      # INTERNAL advertised as kafka1 — for intra-Docker communication (health check, setup)
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://localhost:9092,INTERNAL://kafka1:9094"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "SASL_PLAINTEXT:SASL_PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_SASL_ENABLED_MECHANISMS: SCRAM-SHA-512
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "3"
+      # min-ISR 2: at least 2 of 3 replicas must acknowledge before producer gets ack
+      # With acks=all this means: 1 broker can be slow/down and we still make progress
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "2"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_RETENTION_HOURS: "24"
+    volumes:
+      - ./kafka-config/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9094 --list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  kafka2:
+    image: apache/kafka:3.7.0
+    hostname: kafka2
+    container_name: kafka2
+    ports:
+      - "9192:9192"
+    expose:
+      - "9194"
+    environment:
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qg"
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: "2"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9093,2@kafka2:9193,3@kafka3:9293"
+      KAFKA_LISTENERS: "SASL_PLAINTEXT://0.0.0.0:9192,CONTROLLER://0.0.0.0:9193,INTERNAL://0.0.0.0:9194"
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://localhost:9192,INTERNAL://kafka2:9194"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "SASL_PLAINTEXT:SASL_PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_SASL_ENABLED_MECHANISMS: SCRAM-SHA-512
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "3"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "2"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_RETENTION_HOURS: "24"
+    volumes:
+      - ./kafka-config/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9194 --list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  kafka3:
+    image: apache/kafka:3.7.0
+    hostname: kafka3
+    container_name: kafka3
+    ports:
+      - "9292:9292"
+    expose:
+      - "9294"
+    environment:
+      CLUSTER_ID: "MkU3OEVBNTcwNTJENDM2Qg"
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_NODE_ID: "3"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9093,2@kafka2:9193,3@kafka3:9293"
+      KAFKA_LISTENERS: "SASL_PLAINTEXT://0.0.0.0:9292,CONTROLLER://0.0.0.0:9293,INTERNAL://0.0.0.0:9294"
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://localhost:9292,INTERNAL://kafka3:9294"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "SASL_PLAINTEXT:SASL_PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_SASL_ENABLED_MECHANISMS: SCRAM-SHA-512
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: "3"
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: "3"
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: "2"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_LOG_RETENTION_HOURS: "24"
+    volumes:
+      - ./kafka-config/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9294 --list"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  # ── One-shot setup: create SCRAM users + topics ─────────────────────────────
+  # Waits for all 3 brokers to be healthy, then runs once and exits.
+  # Connects via kafka1's INTERNAL PLAINTEXT listener — no auth needed.
+  # SCRAM users are stored in the KRaft metadata log (replicated across all 3 brokers).
+  # Topics with replication-factor 3 — each partition has a copy on each broker.
+  kafka-setup:
+    image: apache/kafka:3.7.0
+    container_name: kafka-setup
+    depends_on:
+      kafka1:
+        condition: service_healthy
+      kafka2:
+        condition: service_healthy
+      kafka3:
+        condition: service_healthy
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        echo "=== Creating SCRAM-SHA-512 users ==="
+
+        /opt/kafka/bin/kafka-configs.sh --bootstrap-server kafka1:9094 \
+          --alter \
+          --add-config 'SCRAM-SHA-512=[iterations=8192,password=producer-secret]' \
+          --entity-type users --entity-name app-producer \
+          && echo "[OK] user: app-producer"
+
+        /opt/kafka/bin/kafka-configs.sh --bootstrap-server kafka1:9094 \
+          --alter \
+          --add-config 'SCRAM-SHA-512=[iterations=8192,password=consumer-secret]' \
+          --entity-type users --entity-name app-consumer \
+          && echo "[OK] user: app-consumer"
+
+        echo "=== Creating topics (replication-factor 3) ==="
+
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka1:9094 \
+          --create --if-not-exists \
+          --topic orders.raw \
+          --partitions 3 --replication-factor 3 \
+          && echo "[OK] topic: orders.raw"
+
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka1:9094 \
+          --create --if-not-exists \
+          --topic orders.enriched \
+          --partitions 3 --replication-factor 3 \
+          && echo "[OK] topic: orders.enriched"
+
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka1:9094 \
+          --create --if-not-exists \
+          --topic orders.raw.DLT \
+          --partitions 1 --replication-factor 3 \
+          && echo "[OK] topic: orders.raw.DLT"
+
+        echo "=== Topics created ==="
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka1:9094 --list
+        echo "=== Setup complete ==="
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: kafka_reference
+      POSTGRES_USER: kafkaapp
+      POSTGRES_PASSWORD: kafkaapp-secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kafkaapp -d kafka_reference"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
