@@ -1,0 +1,336 @@
+spring:
+
+  # ── Database ────────────────────────────────────────────────────────────────
+  datasource:
+    # JDBC URL format: jdbc:postgresql://<host>:<port>/<database>
+    # In production: inject via env var DATABASE_URL or individual host/db vars.
+    url: jdbc:postgresql://localhost:5432/kafka_reference
+    username: kafkaapp
+    password: kafkaapp-secret
+
+    # ── HikariCP connection pool ─────────────────────────────────────────────
+    # HikariCP is Spring Boot's default connection pool (fastest available for JVM).
+    # A "connection pool" keeps a set of open DB connections ready to reuse.
+    # Without pooling: every query would open + close a TCP connection to PostgreSQL
+    # (expensive: ~5–10ms each time). With pooling: connection is borrowed from the
+    # pool (~0.01ms), used, and returned — reused by the next thread.
+    hikari:
+      # Maximum number of connections in the pool.
+      # Rule of thumb: cores * 2 + 1, but for Kafka consumers the right value is:
+      #   consumer concurrency (3 threads) + overhead threads + headroom = 10.
+      # Too high: PostgreSQL runs out of connections (default max_connections=100).
+      # Too low: threads queue waiting for a free connection → latency spikes.
+      maximum-pool-size: 10
+
+      # Minimum number of idle connections HikariCP keeps alive at all times.
+      # Even when the app is quiet, these 2 connections stay open so the first
+      # burst of requests doesn't wait for new connections to be established.
+      # Set equal to maximum-pool-size if you want a fixed-size pool (no scaling).
+      minimum-idle: 2
+
+      # How long (ms) a thread waits for a connection from the pool before throwing
+      # SQLTimeoutException. 20000ms = 20 seconds.
+      # If exceeded: either raise this, raise maximum-pool-size, or your query is slow.
+      connection-timeout: 20000
+
+      # How long (ms) a connection can sit idle in the pool before being closed.
+      # Prevents stale connections piling up during quiet periods.
+      # Must be > 10000ms (HikariCP minimum). 600000ms = 10 minutes.
+      idle-timeout: 600000
+
+      # Maximum lifetime (ms) of a connection in the pool, regardless of activity.
+      # Forces connections to recycle before PostgreSQL or a firewall kills them silently.
+      # Set slightly below PostgreSQL's tcp_keepalives_idle or any firewall idle timeout.
+      # 1800000ms = 30 minutes.
+      max-lifetime: 1800000
+
+      # How often (ms) HikariCP sends a lightweight query to keep connections alive
+      # and detect broken ones. The query sent is "SELECT 1" (or use connection-test-query).
+      # 30000ms = 30 seconds. Must be < idle-timeout.
+      keepalive-time: 30000
+
+      # Query sent to validate a connection is alive before lending it to a thread.
+      # Redundant when keepalive-time is set but useful as an extra safeguard.
+      # PostgreSQL supports this natively — "SELECT 1" is the lightest possible check.
+      connection-test-query: SELECT 1
+
+      # Name shown in thread dumps, JMX, and HikariCP logs — helps identify this pool
+      # when you have multiple DataSources in one app (e.g. primary + read replica).
+      pool-name: KafkaReferencePool
+
+      # How long (ms) HikariCP waits for the pool to initialize on startup.
+      # If PostgreSQL is not ready within this window, the app fails fast at startup
+      # instead of failing silently later on the first real query.
+      # 0 = wait indefinitely (default). Setting > 0 enables fail-fast behavior.
+      initialization-fail-timeout: 30000
+
+      # Register HikariCP metrics with Micrometer (exposed via Actuator /actuator/metrics).
+      # Exposes: hikaricp.connections.active, .idle, .pending, .timeout, .acquire, etc.
+      # Essential for tuning pool size in production — shows you how many connections
+      # are actually used at peak load vs how many you allocated.
+      register-mbeans: true
+
+  # ── JPA / Hibernate ─────────────────────────────────────────────────────────
+  jpa:
+    hibernate:
+      # none     — do nothing on startup (use in production with external migrations)
+      # validate — verify DB schema matches entities, throw if mismatch (we use this)
+      # update   — auto-alter tables to match entities (dangerous in production)
+      # create   — drop and recreate schema on startup (destroys data)
+      # create-drop — create on start, drop on shutdown (tests only)
+      # Flyway owns all schema changes — Hibernate only validates they're in sync.
+      ddl-auto: validate
+
+    # Log every SQL statement Hibernate sends to the DB.
+    # false in production — generates noise and leaks query structure in logs.
+    # true for debugging only — combine with format_sql and use_sql_comments.
+    show-sql: false
+
+    # Open-in-view keeps the EntityManager open for the entire HTTP request,
+    # allowing lazy loading in the view layer. Disable it — lazy loading should
+    # happen inside @Transactional service methods, not in the web layer.
+    # Leaving it on causes subtle N+1 queries and long-held DB connections.
+    open-in-view: false
+
+    properties:
+      hibernate:
+        # Pretty-print SQL when show-sql is true — indents and line-breaks the output.
+        # Has no effect when show-sql is false.
+        format_sql: false
+
+        # Add a comment to each SQL statement showing which HQL/JPQL it came from.
+        # Useful when debugging — matches the generated SQL back to your repository method.
+        # Only visible when show-sql: true.
+        use_sql_comments: false
+
+        # How Hibernate generates SQL column/table names from Java field names.
+        # SpringPhysicalNamingStrategy converts camelCase to snake_case automatically:
+        #   orderId → order_id, customerId → customer_id, kafkaTopic → kafka_topic
+        # This is Spring Boot's default — matches our Flyway migration column names.
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+        # JDBC batch size — Hibernate accumulates this many INSERT/UPDATE statements
+        # and sends them in a single network round-trip instead of one-by-one.
+        # Reduces DB round-trips for bulk operations (e.g. saving 100 entities = 2 trips, not 100).
+        # Has no effect for single-row saves like ours, but good to configure for future use.
+        jdbc:
+          batch_size: 25
+          # Reorder INSERT/UPDATE statements across entity types to maximize batching.
+          # Hibernate may interleave different entity types — this groups them by type first.
+          batch_versioned_data: true
+
+        # How Hibernate resolves entity associations (JOIN strategy).
+        # false = use separate SELECT per association (default — predictable, debuggable).
+        # true  = use JOINs automatically (can cause cartesian products with collections).
+        default_batch_fetch_size: 16
+
+        # Connection handling mode.
+        # DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION (default):
+        #   Borrow a DB connection from HikariCP only when the transaction actually executes a query,
+        #   not at the start of the @Transactional method. Releases it immediately after the transaction.
+        #   Maximises connection pool efficiency — a thread holding a @Transactional method
+        #   that hasn't touched the DB yet doesn't occupy a pool connection.
+        connection:
+          handling_mode: DELAYED_ACQUISITION_AND_RELEASE_AFTER_TRANSACTION
+
+        # Cache second-level (L2) entity cache across sessions.
+        # false — we don't configure an L2 cache provider (e.g. Ehcache, Redis).
+        # Enabling without a provider throws on startup.
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  # ── Kafka ────────────────────────────────────────────────────────────────────
+  kafka:
+    # List all 3 brokers — client uses this list only for initial connection/discovery.
+    # After connecting to any one broker, it learns about all others automatically.
+    # Listing all 3 means: if broker1 is down when the app starts, it tries broker2/3.
+    bootstrap-servers: localhost:9092,localhost:9192,localhost:9292
+
+    # SASL/SCRAM-SHA-512 — shared by producer and consumer
+    # In production: inject via env vars KAFKA_USERNAME / KAFKA_PASSWORD
+    properties:
+      security.protocol: SASL_PLAINTEXT
+      sasl.mechanism: SCRAM-SHA-512
+      sasl.jaas.config: >-
+        org.apache.kafka.common.security.scram.ScramLoginModule required
+        username="${KAFKA_USERNAME:app-consumer}"
+        password="${KAFKA_PASSWORD:consumer-secret}";
+
+    consumer:
+      group-id: order-processor-group
+      auto-offset-reset: earliest
+
+      # MANUAL ACK: offsets are committed only after the listener explicitly
+      # calls ack.acknowledge(). This guarantees at-least-once delivery —
+      # a message is never lost even if the app crashes mid-processing.
+      enable-auto-commit: false
+
+      # ErrorHandlingDeserializer wraps JsonDeserializer so that a bad message
+      # (malformed JSON, wrong schema) is routed to DLT instead of crashing the consumer.
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "com.example.kafkareference.dto"
+        spring.json.value.default.type: "com.example.kafkareference.dto.RawOrderEvent"
+        spring.json.use.type.headers: false   # ignore __TypeId__ headers from Python producer
+
+    producer:
+      # Producer uses app-producer credentials
+      # Override the shared JAAS config for the producer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all                         # wait for all in-sync replicas
+      retries: 3                        # retry transient broker errors
+      properties:
+        enable.idempotence: true        # exactly-once semantics on the producer side
+        max.in.flight.requests.per.connection: 5
+        compression.type: lz4
+        linger.ms: 5
+        sasl.jaas.config: >-
+          org.apache.kafka.common.security.scram.ScramLoginModule required
+          username="${KAFKA_PRODUCER_USERNAME:app-producer}"
+          password="${KAFKA_PRODUCER_PASSWORD:producer-secret}";
+
+# ── Custom application properties (NOT Spring Boot keys) ───────────────────────
+# These keys are defined by us — Spring Boot does not know about them.
+# They are read explicitly in our code via @Value("${kafka.topics.raw-orders}") etc.
+# in KafkaConsumerConfig, KafkaTopicConfig, KafkaProducerConfig, EnrichedOrderProducer.
+# If you rename a key here, update every matching @Value annotation or the app
+# will fail at startup with: IllegalArgumentException: Could not resolve placeholder.
+kafka:
+  topics:
+    # Topic names injected into @KafkaListener, KafkaTopicConfig beans, and producers.
+    # Change these to match your actual topic names per environment.
+    raw-orders: orders.raw
+    enriched-orders: orders.enriched
+    dead-letter: orders.raw.DLT
+
+  consumer:
+    # Number of concurrent listener threads — must equal the partition count on orders.raw.
+    # Each thread is assigned one partition. If concurrency > partitions, extra threads idle.
+    # If concurrency < partitions, some threads handle multiple partitions (lower throughput).
+    concurrency: 3
+
+    retry:
+      # Total number of delivery attempts before sending to DLT.
+      # 3 attempts = 1 original + 2 retries (not 3 retries).
+      # Read in KafkaConsumerConfig to configure ExponentialBackOff.setMaxAttempts().
+      max-attempts: 3
+
+      # Wait time (ms) before the first retry.
+      # Subsequent waits = previous * multiplier: 1000 → 2000 → 4000ms.
+      initial-interval-ms: 1000
+
+      # Each retry waits multiplier × previous interval.
+      # 2.0 = exponential doubling: 1s → 2s → 4s → DLT.
+      multiplier: 2.0
+
+      # Cap on the backoff interval (ms). Prevents unbounded waits if multiplier
+      # is applied many times. With max-attempts=3 and multiplier=2, max is never
+      # reached here (4s < 10s), but good to set as a safety net.
+      max-interval-ms: 10000
+
+# ── Spring Boot Actuator ───────────────────────────────────────────────────────
+# Actuator exposes operational endpoints over HTTP for health checks, metrics,
+# and runtime info. Used by load balancers, Kubernetes liveness/readiness probes,
+# and monitoring tools (Prometheus, Grafana, Datadog).
+management:
+  endpoints:
+    web:
+      # Which endpoints are exposed over HTTP.
+      # Default: only "health" is exposed. Explicitly list what you need.
+      # Available: health, info, metrics, env, beans, loggers, threaddump,
+      #            heapdump, mappings, scheduledtasks, conditions, configprops
+      # In production: expose only health and metrics — env/beans leak internals.
+      exposure:
+        include: health,info,metrics,loggers
+
+      # Base path for all actuator endpoints. Default: /actuator
+      # health → /api/v1/actuator/health
+      # metrics → /api/v1/actuator/metrics
+      # loggers → /api/v1/actuator/loggers
+      base-path: /api/v1/actuator
+
+  endpoint:
+    health:
+      # never    — just UP/DOWN, no component details (production default)
+      # when-authorized — details only for authenticated users
+      # always   — full component breakdown shown to everyone (use in dev/staging only)
+      # Shows: DB connection status, Kafka broker connectivity, disk space, HikariCP pool.
+      show-details: always
+
+      # Show individual health contributors grouped (e.g. db, kafka, diskSpace).
+      # Lets you see which specific component is unhealthy, not just that health is DOWN.
+      show-components: always
+
+    # Allow changing log levels at runtime via POST /actuator/loggers/{logger}.name
+    # Example: curl -X POST localhost:8080/actuator/loggers/com.example \
+    #   -H "Content-Type: application/json" -d '{"configuredLevel":"DEBUG"}'
+    # Useful for turning on DEBUG logging in production without restarting the app.
+    loggers:
+      enabled: true
+
+    # Expose Micrometer metrics in Prometheus format at /actuator/prometheus.
+    # Uncomment if you add the micrometer-registry-prometheus dependency.
+    # prometheus:
+    #   enabled: true
+
+  # Micrometer metrics configuration — tags added to every metric emitted.
+  # These show up in Prometheus/Grafana as label dimensions on every time series.
+  # Useful for filtering metrics by app or environment in dashboards.
+  metrics:
+    tags:
+      application: kafka-reference
+      environment: local
+
+    # Export metrics to specific backends.
+    # Defaults to in-memory (readable via /actuator/metrics only).
+    # Uncomment the relevant block when you add the matching dependency.
+    export:
+      # Prometheus pull-based scraping — add micrometer-registry-prometheus to pom.xml
+      # prometheus:
+      #   enabled: true
+
+      # Datadog push-based — add micrometer-registry-datadog to pom.xml
+      # datadog:
+      #   enabled: true
+      #   api-key: ${DATADOG_API_KEY}
+      #   step: 60s
+
+# ── Logging ────────────────────────────────────────────────────────────────────
+logging:
+  level:
+    # Your application code — DEBUG in dev to see all processing steps.
+    # Change to INFO in production to reduce log volume.
+    com.example.kafkareference: DEBUG
+
+    # Spring Kafka framework internals — INFO shows listener start/stop and rebalances.
+    # Useful to see consumer group assignment and partition ownership.
+    org.springframework.kafka: INFO
+
+    # Apache Kafka client library — very verbose at INFO/DEBUG.
+    # WARN suppresses routine poll/fetch/heartbeat logs, keeps only warnings and errors.
+    org.apache.kafka: WARN
+
+    # HikariCP pool — INFO shows pool startup and sizing decisions.
+    # Set to DEBUG to see every connection borrow/return (very noisy).
+    com.zaxxer.hikari: INFO
+
+    # Hibernate SQL logging — only meaningful when jpa.show-sql: true.
+    # Set to DEBUG here as an alternative to show-sql (more granular control).
+    org.hibernate.SQL: WARN
+
+    # Hibernate parameter binding — shows the actual values bound to ? placeholders.
+    # NEVER enable in production — logs every query parameter including PII.
+    org.hibernate.orm.jdbc.bind: WARN
+
+  # Log output pattern. Omit to use Spring Boot's default.
+  # Useful for structured logging in production — switch to JSON format with logstash-logback-encoder.
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
